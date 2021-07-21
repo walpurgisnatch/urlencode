@@ -1,0 +1,26 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp(ql:quickload '(:urlencode) :silent t)
+  )
+
+(defpackage :ros.script.urlencode.3835825062
+  (:use :cl))
+(in-package :ros.script.urlencode.3835825062)
+
+(defun main (command string &rest argv)
+    (declare (ignorable argv))
+    (handler-case
+        (cond
+          ((equal command "encode") (urlencode:encode))
+          ((equal command "double-encode") (urlencode:double-encode))
+          ((equal command "decode") (urlencode:decode))
+          ((equal command "double-decode") (urlencode:double-decode))
+          (t (format t "~%Command not found [~a]~%" command)))
+      (error (e)
+          (format *standard-output* "~&Error: ~a~%" e)
+          (uiop:quit -1))))
