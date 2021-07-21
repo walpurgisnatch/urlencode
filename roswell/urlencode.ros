@@ -9,17 +9,17 @@ exec ros -Q -- $0 "$@"
   )
 
 (defpackage :ros.script.urlencode.3835825062
-  (:use :cl))
+  (:use :cl :urlencode))
 (in-package :ros.script.urlencode.3835825062)
 
 (defun main (command string &rest argv)
     (declare (ignorable argv))
     (handler-case
         (cond
-          ((equal command "encode") (urlencode:encode))
-          ((equal command "double-encode") (urlencode:double-encode))
-          ((equal command "decode") (urlencode:decode))
-          ((equal command "double-decode") (urlencode:double-decode))
+          ((equal command "encode") (display (encode string)))
+          ((equal command "double-encode") (display (double-encode string)))
+          ((equal command "decode") (display (decode string)))
+          ((equal command "double-decode") (display (double-decode string)))
           (t (format t "~%Command not found [~a]~%" command)))
       (error (e)
           (format *standard-output* "~&Error: ~a~%" e)
